@@ -49,6 +49,7 @@ const uint16_t water_adc_value = 1585;
 uint8_t soil_moisture = 0;
 uint16_t one_interval_width = 0;
 uint8_t number_of_intervals = 11;
+uint32_t printing_led_lvl_delay_ms = 100;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,7 +58,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
-
+void LedInitAnimation(uint32_t delay);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -101,14 +102,15 @@ int main(void)
   uint16_t range_measurement = air_adc_value - water_adc_value;
   one_interval_width = range_measurement / number_of_intervals;
 
-
-
+  /*	LED init animation */
+  LedInitAnimation(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  /* ADC MEASUREMENT */
 	  HAL_ADC_Start(&hadc1);
 
 	  if(HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK)
@@ -116,6 +118,7 @@ int main(void)
 		  measured_adc_value = HAL_ADC_GetValue(&hadc1);
 	  }
 
+	  /* COUNTING SOIL MOISTURE */
 	  for(uint8_t i = 1 ; i <= number_of_intervals ; i++)
 	  {
 			if(measured_adc_value  > (air_adc_value-(i*one_interval_width)))
@@ -125,7 +128,131 @@ int main(void)
 			}
 	  }
 
-	  HAL_Delay(50);
+	  /* CHECK SUPPLY VOLTAGE */
+	  //TODO!
+
+	  /* PRINT SOIL MOISTURE LVL */
+	  if (soil_moisture >= 1)
+	  {
+		  HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+	  if (soil_moisture >= 2)
+	  {
+		  HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 3)
+	  {
+		  HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 4)
+	  {
+		  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 5)
+	  {
+		  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 6)
+	  {
+		  HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 7)
+	  {
+		  HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 8)
+	  {
+		  HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 9)
+	  {
+		  HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+
+	  if (soil_moisture >= 10)
+	  {
+		  HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_RESET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  HAL_Delay(printing_led_lvl_delay_ms);
+
+	  if (soil_moisture < 10)
+	  {
+		  HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 9)
+	  {
+		  HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 8)
+	  {
+		  HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 7)
+	  {
+		  HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 6)
+	  {
+		  HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 5)
+	  {
+		  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 4)
+	  {
+		  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 3)
+	  {
+		  HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 2)
+	  {
+		  HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+	  if (soil_moisture < 1)
+	  {
+		  HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
+		  HAL_Delay(printing_led_lvl_delay_ms);
+	  }
+
+	  HAL_GPIO_TogglePin(USER_LED_GPIO_Port, USER_LED_Pin);
 
     /* USER CODE END WHILE */
 
@@ -255,22 +382,51 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, LED_10_Pin|LED_9_Pin|LED_8_Pin|LED_7_Pin
+                          |LED_6_Pin|LED_5_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LED_4_Pin|LED_3_Pin|LED_2_Pin|LED_1_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LED_Blue_GPIO_Port, LED_Blue_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : USER_LED_Pin */
+  GPIO_InitStruct.Pin = USER_LED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(USER_LED_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pin : USER_BUTTON_Pin */
+  GPIO_InitStruct.Pin = USER_BUTTON_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USER_BUTTON_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED_10_Pin LED_9_Pin LED_8_Pin LED_7_Pin
+                           LED_6_Pin LED_5_Pin */
+  GPIO_InitStruct.Pin = LED_10_Pin|LED_9_Pin|LED_8_Pin|LED_7_Pin
+                          |LED_6_Pin|LED_5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED_4_Pin LED_3_Pin LED_2_Pin LED_1_Pin
+                           LED_Blue_Pin */
+  GPIO_InitStruct.Pin = LED_4_Pin|LED_3_Pin|LED_2_Pin|LED_1_Pin
+                          |LED_Blue_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -278,6 +434,50 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+void LedInitAnimation(uint32_t delay)
+{
+	  HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(2*delay);
+
+	  HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_SET);
+	  HAL_Delay(delay);
+	  HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
+	  HAL_Delay(2*delay);
+}
 /* USER CODE END 4 */
 
 /**
